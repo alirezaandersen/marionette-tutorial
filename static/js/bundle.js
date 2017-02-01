@@ -61,7 +61,7 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1638,7 +1638,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
   // Set up Backbone appropriately for the environment. Start with AMD.
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(8), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0), __webpack_require__(7), exports], __WEBPACK_AMD_DEFINE_RESULT__ = function(_, $, exports) {
       // Export global even in AMD case in case this script is loaded with
       // others that may still expect a global Backbone.
       root.Backbone = factory(root, exports, _, $);
@@ -3543,7 +3543,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
   return Backbone;
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ },
 /* 2 */
@@ -3596,7 +3596,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// MarionetteJS 
 (function(root, factory) {
 
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1), __webpack_require__(0), __webpack_require__(7), __webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1), __webpack_require__(0), __webpack_require__(6), __webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function(Backbone, _) {
       return (root.Marionette = root.Mn = factory(root, Backbone, _));
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   } else if (typeof exports !== 'undefined') {
@@ -7102,40 +7102,67 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// MarionetteJS 
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+=''+
-((__t=( text ))==null?'':_.escape(__t))+
-' &mdash; '+
-((__t=( assignee ))==null?'':_.escape(__t))+
-'\n';
-}
-return __p;
-};
+var Backbone = __webpack_require__(1);
+var Marionette = __webpack_require__(3);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+var ToDoModel = __webpack_require__(2);
+
+
+var ToDo = Marionette.LayoutView.extend({
+  tagName: 'li',
+  template: __webpack_require__(8)
+});
+
+
+var TodoList = Marionette.CompositeView.extend({
+  el: '#app-hook',
+  template: __webpack_require__(9),
+
+  childView: ToDo,
+  childViewContainer: 'ul',
+
+  ui: {
+    assignee: '#id_assignee',
+    form: 'form',
+    text: '#id_text'
+  },
+
+  triggers: {
+    'submit @ui.form': 'add:todo:item'
+  },
+
+  collectionEvents: {
+    add: 'itemAdded'
+  },
+
+  modelEvents: {
+    change: 'render'
+  },
+
+  onAddTodoItem: function() {
+    this.model.set({
+      assignee: this.ui.assignee.val(),
+      text: this.ui.text.val()
+    }, {validate: true});
+
+    var items = this.model.pick('assignee', 'text');
+    this.collection.add(items);
+  },
+
+  itemAdded: function() {
+    this.model.set({
+      assignee: '',
+      text: ''
+    });
+  }
+});
+
+
+module.exports = TodoList;
+
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
-var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-with(obj||{}){
-__p+='<ul></ul>\n<form>\n  <label for="id_text">Todo Text</label>\n  <input type="text" name="text" id="id_text" value="'+
-((__t=( text ))==null?'':_.escape(__t))+
-'" />\n  <label for="id_assignee">Assign to</label>\n  <input type="text" name="assignee" id="id_assignee" value="'+
-((__t=( assignee ))==null?'':_.escape(__t))+
-'"/>\n\n  <button id="btn-add">Add Item</button>\n</form>\n';
-}
-return __p;
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.BabySitter
@@ -7331,7 +7358,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.Baby
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.Wreqr (Backbone.Marionette)
@@ -7772,7 +7799,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Backbone.Wreq
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -17998,7 +18025,43 @@ return jQuery;
 
 
 /***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+=''+
+((__t=( text ))==null?'':_.escape(__t))+
+' &mdash; '+
+((__t=( assignee ))==null?'':_.escape(__t))+
+'\n';
+}
+return __p;
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
+var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+with(obj||{}){
+__p+='<ul></ul>\n<form>\n  <label for="id_text">Todo Text</label>\n  <input type="text" name="text" id="id_text" value="'+
+((__t=( text ))==null?'':_.escape(__t))+
+'" />\n  <label for="id_assignee">Assign to</label>\n  <input type="text" name="assignee" id="id_assignee" value="'+
+((__t=( assignee ))==null?'':_.escape(__t))+
+'"/>\n\n  <button id="btn-add">Add Item</button>\n</form>\n';
+}
+return __p;
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 var g;
@@ -18023,74 +18086,31 @@ module.exports = g;
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-var Backbone = __webpack_require__(1);
 var Marionette = __webpack_require__(3);
-
+var TodoView = __webpack_require__(4);
 var ToDoModel = __webpack_require__(2);
 
 
-var ToDo = Marionette.LayoutView.extend({
-  tagName: 'li',
-  template: __webpack_require__(4)
-});
+var initialData = [
+  {assignee: 'Scott', text: 'Write a book about Marionette'},
+  {assignee: 'Andrew', text: 'Do some coding'}
+];
 
-
-var TodoList = Marionette.CompositeView.extend({
-  el: '#app-hook',
-  template: __webpack_require__(5),
-
-  childView: ToDo,
-  childViewContainer: 'ul',
-
-  ui: {
-    assignee: '#id_assignee',
-    form: 'form',
-    text: '#id_text'
-  },
-
-  triggers: {
-    'submit @ui.form': 'add:todo:item'
-  },
-
-  collectionEvents: {
-    add: 'itemAdded'
-  },
-
-  onAddTodoItem: function() {
-    this.model.set({
-      assignee: this.ui.assignee.val(),
-      text: this.ui.text.val()
+var app = new Marionette.Application({
+  onStart: function(options) {
+    var todo = new TodoView({
+      collection: new Backbone.Collection(options.initialData),
+      model: new ToDoModel()
     });
-
-    if (this.model.isValid()) {
-      var items = this.model.pick('assignee', 'text');
-      this.collection.add(items);
-    }
-  },
-
-  itemAdded: function() {
-    this.model.set({
-      assignee: '',
-      text: ''
-    });
-
-    this.ui.assignee.val('');
-    this.ui.text.val('');
+    todo.render();
+    todo.triggerMethod('show');
   }
 });
 
-var todo = new TodoList({
-  collection: new Backbone.Collection([
-    {assignee: 'Scott', text: 'Write a book about Marionette'},
-    {assignee: 'Andrew', text: 'Do some coding'}
-  ]),
-  model: new ToDoModel()
-});
-
-todo.render();
+app.start({initialData: initialData});
 
 
 /***/ }
